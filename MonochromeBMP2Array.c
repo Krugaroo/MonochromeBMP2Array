@@ -305,7 +305,7 @@ int main(int argc, char **argv)
 		fprintf(outputFile,"unsigned int ImgWidthPixels = %d;\r\n", bmpData.width);
 		fprintf(outputFile,"unsigned int ImgHeightPixels = %d;\r\n", bmpData.height);
 		fprintf(outputFile,"unsigned int ImgTotalBytes = %d;\r\n\r\n", widthPixBytes*bmpData.height);
-		fprintf(outputFile,"const char ImgArray[%d][%d] = {\r\n{", bmpData.height,widthPixBytes);
+		fprintf(outputFile,"const char ImgArray[] = {\r\n");
 	}
 	
 	do 
@@ -316,15 +316,8 @@ int main(int argc, char **argv)
 		{
 			if(outputFile!=NULL)
 			{
-				if(columnoffset<widthPixBytes-1)
-				{
-					fprintf(outputFile,"0x%02X,", pixelByteDraw);
-				}
-				else
-				{
-					fprintf(outputFile,"0x%02X", pixelByteDraw);
-				}
-			}
+        fprintf(outputFile,"0x%02X,", pixelByteDraw);
+      }
 		}
 		
 		pixelBytesRead++;
@@ -334,7 +327,7 @@ int main(int argc, char **argv)
 		{
 			if(outputFile!=NULL && pixelBytesRead<widthPixBytes*bmpData.height)
 			{
-				fprintf(outputFile,"},\r\n{");
+				fprintf(outputFile,"\r\n");
 			}
 			
 			columnoffset=0;	
@@ -346,7 +339,7 @@ int main(int argc, char **argv)
     
     if(outputFile!=NULL)
 	{
-		fprintf(outputFile,"}\r\n};\r\n\r\n");
+		fprintf(outputFile,"\r\n};\r\n\r\n");
 	}
 
     /* Free the allocated buffer */
